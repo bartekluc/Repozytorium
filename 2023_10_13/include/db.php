@@ -38,8 +38,8 @@ function storeMessage(string $email, string $message): bool
 {
     global $conn;
 
-    $sql = joknsprintf(
-        'INSERT INTO contact_messages (email, message) VALUES ("%s", "%s")',
+    $sql = sprintf(
+        'INSERT INTO contact_messeges (email, message) VALUES ("%s", "%s")',
         $email,
         $message
     );
@@ -68,4 +68,22 @@ function findAdminById(string $login): ?array{
     }
 
     return null;
+}
+
+function getContactMessages(): array
+{
+    global $conn;
+
+    $messages = [];
+
+    $sql = 'SELECT * FROM contact_messeges';
+
+    $result = $conn->query($sql);
+
+    while($row = $result->fetch_assoc()){
+        $messages[] = $row;
+    }
+    $result->free_result();
+
+    return $messages;
 }
